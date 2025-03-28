@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # PPS-Unidad3Actividad1-Oscar
 Actividad 1 de la Unidad 3 de Puesta en Producción Segura. Creación de entornos de pruebas. 
 
