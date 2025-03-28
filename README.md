@@ -1,4 +1,4 @@
-# PPS-Unidad1Actividad2-JoseMi
+# PPS-Unidad3Actividad1-Oscar
 Actividad 1 de la Unidad 3 de Puesta en Producción Segura. Creación de entornos de pruebas. 
 
 Tenemos como objetivo:
@@ -8,6 +8,9 @@ Tenemos como objetivo:
 > [Crear un entorno de pruebas de vulnerabilidades](#Entorno-de-pruebas)
 
 ---
+Lo haremos a través de documentos de docker-compose.yml en carpetas separadas:
+
+![](images/X.png)
 ## Entorno de maquinas vulnerables
 
 Hemos visto como, entre la información de fuentes abiertas que tenemos a nuestro alcance, hay proyectos creados con máquinas deliberadamente vulnerables para que podamos entrenar con ellas.
@@ -23,49 +26,43 @@ Para ello tan sólo tenemos que realizar los siguientes pasos:
 2. Coloca dentro de ella el archivo [docker-compose.yml](./entornoMaquinasInseguras/docker-compose.yml) que tienes en la carpeta entornoMaquinasInseguras de este repositorio: 
 3. Levanta el escenario multicontedor con `docker-compose up -d`
 
+![](images/1.png)
+
 > Las máquinas vulnerables que hemos creado son:
->> **DVWA**.  A esta máquina accedemos a través del puerto **8001**. Es posible que tarde un poco en crear la base de datos o sea que  _un poco de paciencia_ si da error en la BBDD.
+>> **DVWA**.  A esta máquina accedemos a través del puerto **8001**. 
+>> Por lo tanto accedemos a ella en el enlace: <localhost:8000>. ![](images/DVWA1.png)
 >>
->> Por lo tanto accedemos a ella en el enlace: <localhost:8001>. ![](images/DVWA1.png)
->>
->> Podemos acceder con usuario **Admin** y sin contraseña... -o con el que queramos- 
+>> Podemos acceder con usuario **admin** y contraseña **admin**. 
 >>
 >> Al igual que en bWAPP que veremos a continuación, el primer paso será crear la Base de Datos. 
 >>
 >> ![](images/DVWA2.png)
 >> ![](images/DVWA3.png)
->>
->> Ya con el usuario **admin* y la contraseña **password** podemos hacer a completar los retos que queramos.
->> ![](images/DVWA4.png)
->>
->---
->
->> **bWAPP**. A esta máquina accedemos a través del puerto **8002**. 
+
+>> **bWAPP**. A esta máquina accedemos a través del puerto **8001**. 
 >>
 >> La primera vez que accedamos nos dará un error ya que no tiene creada la BBDD. ![](images/bwapp1.png)
 >>
->> Por lo tanto accedemos a crearla: <http://localhost:8002/install.php> ![](images/bwapp2.png)
+>> Por lo tanto accedemos a crearla: <http://localhost:8002/install.php> 
+>>
+>> ![](images/bwapp2.png)
 >>
 >> Y ya podremos acceder pulsando en login o creando un nuevo usuario. Las credenciales de acceso por defecto son usuario: bee, contraseña: bug y podemos seleccionar en este momento el **nivel de seguridad** que queremos que tenga la máquina.
 >>
->> ![](images/bwapp3.png)
 >> ![](images/bwapp4.png)
 >>
->> Y después de acceder podremos realizar un gran número de entrenamientos de explotación de vulnerabilidades.
 >>
->> ![](images/bwapp5.png)
->---
->
 >> **OWASP Multillidae ii**. A esta máquina accedemos a través del puerto **80** o del **8080**. 
 >>
->> Por lo tanto accedemos a ella en el enlace: <http://localhost>. ![](images/multill1.png)
+>> Por lo tanto accedemos a ella en el enlace: <http://localhost:80> 
 >>
->> Al igual que en los casos anteriores, el primer paso será crear la Base de Datos. 
+>>![](images/multill1.png)
+>>
+>> Al igual que en los casos anteriores, el primer paso será crear la Base de Datos. Pinchamos en "Click here" para crear la base de datos.
 >>
 >> ![](images/multill12.png)
 >>
->> En este caso no necesitamos usuario y contraseña para acceder.
->> 
+>>  
 >> En multillidae tenemos además del servicio de BBDD otros servicios creados:
 >> - Servicio PhpAdmin para acceder a las BBDD. Accedemos desde <http://localhost:81>. 
 >> ![](images/multill3.png)
@@ -87,83 +84,21 @@ Tenemos diferentes opciones para realizarlo, entre ellas:
 En esta ocasión vamos utilizar la segunda opción, crearemos un escenario multicontenedor con cualquiera de las pilas que nos podemos encontrar en [docker hub](https://hub.docker.com). Yo he utilizado la primera que me he encontrado:[https://github.com/sprintcube/docker-compose-lamp.git](https://github.com/sprintcube/docker-compose-lamp.git)
 
 > Si vemos el repositoio de github.com, el usuario nos dice las operaciones que tenemos que hacer para replicar el escenario:
->
-> ~~~
-> git clone https://github.com/sprintcube/docker-compose-lamp.git
-> cd docker-compose-lamp/
-> cp sample.env .env
-> // modify sample.env as needed
-> docker compose up -d
-> // visit localhost
-> ~~~
+
 Veamos:
 - Clonamos el repositorio en nuestro equipo local.
+
+![](images/2.png)
+
 - Entramos dentro de la carpeta del proyecto.
+
+![](images/3.png)
+
 - Hacemos una copia del fichero sample.env en un fichero llamado .env.
-Démonos cuenta que este fichero es el que contiene las variables que se van a utilizar en las diferentes máquinas que vamos a crear. si lo abrimos, tiene este aspecto: 
+Démonos cuenta que este fichero es el que contiene las variables que se van a utilizar en las diferentes máquinas que vamos a crear. 
 
-~~~
-# Please Note:
-# In PHP Versions <= 7.4 MySQL8 is not supported due to lacking pdo support
+![](images/4.png)
 
-# To determine the name of your containers
-COMPOSE_PROJECT_NAME=lamp
-
-# Possible values: php54, php56, php71, php72, php73, php74, php8, php81, php82, php83
-PHPVERSION=php83
-DOCUMENT_ROOT=./www
-APACHE_DOCUMENT_ROOT=/var/www/html
-VHOSTS_DIR=./config/vhosts
-APACHE_LOG_DIR=./logs/apache2
-PHP_INI=./config/php/php.ini
-SSL_DIR=./config/ssl
-
-# PHPMyAdmin
-UPLOAD_LIMIT=512M
-MEMORY_LIMIT=512M
-
-# Xdebug
-XDEBUG_LOG_DIR=./logs/xdebug
-XDEBUG_PORT=9003
-#XDEBUG_PORT=9000
-
-# Possible values: mysql57, mysql8, mariadb103, mariadb104, mariadb105, mariadb106
-#
-# For Apple Silicon User: 
-# Please select Mariadb as Database. Oracle doesn't build their SQL Containers for the arm Architecure
-
-DATABASE=mysql8
-MYSQL_INITDB_DIR=./config/initdb
-MYSQL_DATA_DIR=./data/mysql
-MYSQL_LOG_DIR=./logs/mysql
-
-# If you already have the port 80 in use, you can change it (for example if you have Apache)
-HOST_MACHINE_UNSECURE_HOST_PORT=80
-
-# If you already have the port 443 in use, you can change it (for example if you have Apache)
-HOST_MACHINE_SECURE_HOST_PORT=443
-
-# If you already have the port 3306 in use, you can change it (for example if you have MySQL)
-HOST_MACHINE_MYSQL_PORT=3306
-
-# If you already have the port 8080 in use, you can change it (for example if you have PMA)
-HOST_MACHINE_PMA_PORT=8080
-HOST_MACHINE_PMA_SECURE_PORT=8443
-
-# If you already has the port 6379 in use, you can change it (for example if you have Redis)
-HOST_MACHINE_REDIS_PORT=6379
-
-# MySQL root user password
-MYSQL_ROOT_PASSWORD=tiger
-
-# Database settings: Username, password and database name
-#
-# If you need to give the docker user access to more databases than the "docker" db 
-# you can grant the privileges with phpmyadmin to the user.
-MYSQL_USER=docker
-MYSQL_PASSWORD=docker
-MYSQL_DATABASE=docker
-~~~
 Podemos ver como dentro de las variables que se crean aquí, muchas de ellas tienen que ver con versiones, rutas, y nombres y otras con contraseñas.
 Podemos cambiar aquí, entre otras cosas, la versión de PHP y BBDD a utilizar, que por defecto está la 8.3 de PHP y mySQL8 como BBDD. También, si lo deseamos las rutas del servidor web, archivos de configuración, certificados, bases de datos, etc...
 Por otra parte tenemos también los puertos que utilizarán las máquinas y las contraseñas de la máquina de mysql, tanto de administración como de usuario, y nombre de BBDD a crear.
@@ -176,10 +111,37 @@ Por otra parte tenemos también los puertos que utilizarán las máquinas y las 
 >	- BBDD
 >	- Usuario de BBDD
 
-Aquí finalizaría la configuración de nuestro escenario multicontenedor. Seguimos con pasos:
-- Levantar el escenario con docker-compose up -d 
+Modificamos las contraseñas: 
 
-... pero antes, veamos el archivos docker-compose.yml para comprobar que:
+![](images/5.png)
+
+Antes de levantar el escenario, nos aseguramos que no hay ningún contenedor docker corriendo en nuestra máquina. Para ello invocamos el comando:
+
+```
+ docker stop $(docker ps -q) && docker rm $(docker ps -aq) && docker rmi $(docker images -q)
+```
+Y levantamos el escenario invocando docker-compose up -d 
+
+![](images/6.png)
+
+Y si todo va bien deberíamos ver algo así:
+
+![](images/7.png)
+
+Si invocamos un docker ps podemos ver los puertos por donde corren las máquinas del escenario que hemos levantado:
+
+![](images/8.png)
+
+Vamos a investigar en cada dirección:
+
+- Si entramos en https://localhost:80 
+
+![](images/9.png)
+
+- Si entramos enhttps://localhost:8080
+
+![](images/10.png)
+
 
 Se levantan tres servicios o contenedores diferentes:
 
@@ -187,31 +149,3 @@ Se levantan tres servicios o contenedores diferentes:
 2. Servicio __database__ que contrendrá la base de datos mySQL8.
 3. Un servidor web para administrar la Base de datos: PHPMyAdmin.
 4. Una base de datos no SQL: Redis, que se suele utilizar como caché de aplicaciones.
-Ya si podemos levantar el escenario multicontenedor:
-~~~
-docker-compose up -d
-~~~
-
-Y si todo va bien, tendremos nuestro escenario levantado:
-![](images/composeup.png)
-
-
-> Para 
->[https://uniwebsidad.com/libros/python/capitulo-2/elementos-del-lenguaje](https://uniwebsidad.com/libros/python/capitulo-2/elementos-del-lenguaje)
-
->[https://protegermipc.net/2019/05/22/libro-python-basico-para-hackers-y-pentester](https://protegermipc.net/2019/05/22/libro-python-basico-para-hackers-y-pentester)
-
-
-
-
-
----
-## ENTREGA
-
->__Implementa los dos entornos indicados__
-
->__Crea un repositorio  con nombre PPS-Unidad3Actividad1-Tu-Nombre donde documentes la realización de ellos.__
-
-> No te olvides de documentarlo convenientemente con explicaciones, capturas de pantalla, etc.
-
->__Sube a la plataforma, tanto el repositorio comprimido como la dirección https a tu repositorio de Github.__
