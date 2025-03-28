@@ -149,6 +149,3 @@ Se levantan tres servicios o contenedores diferentes:
 2. Servicio __database__ que contrendrá la base de datos mySQL8.
 3. Un servidor web para administrar la Base de datos: PHPMyAdmin.
 4. Una base de datos no SQL: Redis, que se suele utilizar como caché de aplicaciones.
-=======
-# PPS-Unidad3-Actividad1
->>>>>>> ec1ece375ca48bb81d02a20b518715d46712fec9
